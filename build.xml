@@ -1,0 +1,58 @@
+<project name="incr-install" default="sysinfo" basedir=".">
+<target name="sysinfo" >
+ <!-- create log file -->
+ <!-- start recording all command output to log file  -->
+ <!-- Get system information like
+      	  Host Name:                 CLV00085
+      	        OS Name:                   Microsoftr Windows Serverr 2008 Standard 
+      	              OS Version:                6.0.6002 Service Pack 2 Build 6002
+      	                    OS Manufacturer:           Microsoft Corporation
+      	                          OS Configuration:          Standalone Server
+      	                                OS Build Type:             Multiprocessor Free
+      	                                      Registered Owner:          Windows User
+      	                                            Registered Organization:   
+      	                                                  Product ID:                55041-222-5052513-76652
+      	                                                        Original Install Date:     12/7/2010, 4:01:25 PM
+      	                                                              System Boot Time:          4/14/2013, 3:07:21 PM
+      	                                                                    System Manufacturer:       VMware, Inc.
+      	                                                                          System Model:              VMware Virtual Platform
+      	                                                                                System Type:               x64-based PC
+      	                                                                                      Processor(s):              2 Processor(s) Installed.
+      	                                                                                                                       [01]: Intel64 Family 6 Model 23 Stepping 6 GenuineIntel ~2666 Mhz
+      	                                                                                                                                                        [02]: Intel64 Family 6 Model 23 Stepping 6 GenuineIntel ~2666 Mhz
+      	                                                                                                                                                              BIOS Version:              Phoenix Technologies LTD 6.00, 9/22/2009
+      	                                                                                                                                                                    Windows Directory:         C:\Windows
+      	                                                                                                                                                                          System Directory:          C:\Windows\system32
+      	                                                                                                                                                                                Boot Device:               \Device\HarddiskVolume1
+      	                                                                                                                                                                                      System Locale:             en-us;English (United States)
+      	                                                                                                                                                                                            Input Locale:              en-us;English (United States)
+      	                                                                                                                                                                                                  Time Zone:                 (GMT-05:00) Eastern Time (US & Canada)
+      	                                                                                                                                                                                                        Total Physical Memory:     10,239 MB
+      	                                                                                                                                                                                                              Available Physical Memory: 8,287 MB
+      	                                                                                                                                                                                                                    Page File: Max Size:       20,461 MB
+      	                                                                                                                                                                                                                          Page File: Available:      19,311 MB
+      	                                                                                                                                                                                                                                Page File: In Use:         1,150 MB
+      	                                                                                                                                                                                                                                      Page File Location(s):     C:\pagefile.sys
+      	                                                                                                                                                                                                                                            Domain:                    WORKGROUP
+      	                                                                                                                                                                                                                                                  Logon Server:              \\CLV00085
+      	                                                                                                                                                                                                                                                        Hotfix(s):                 125 Hotfix(s) Installed. -->
+	<echo message=" Get SYSTEM and MEMORY INFO" />
+	 
+	<exec executable="${SYSINFO}" osfamily="windows"></exec>
+		<exec executable="/usr/bin/free" osfamily="unix"></exec>
+			
+	<echo message=" Get Disk Space INFO" />
+		<!-- Get Disk Space INFO like
+		     	FreeSpace   Name  Size         
+		     	                  A:                 
+		     	                        5523607552  C:    85910843392  
+		     	                                          D:                 
+		     	                                                -->
+	<exec executable="wmic" osfamily="windows">
+		<arg line=" /node:localhost LOGICALDISK GET Name,Size,FreeSpace"/>
+			</exec>
+				<exec executable="/bin/df" osfamily="unix"></exec>
+				<!-- Target to copy services files -->
+</target>
+
+</project>
